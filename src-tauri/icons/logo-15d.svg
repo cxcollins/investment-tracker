@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <g transform="translate(25.6 25.6) scale(0.9)">
+  <g transform="translate(38.4 38.4) scale(0.85)">
     <rect width="512" height="512" rx="115" fill="#000000"/>
     <text x="256" y="256" text-anchor="middle" dominant-baseline="central" font-family="system-ui, sans-serif" font-size="280" font-weight="bold" fill="#10b981">$</text>
     <path d="M436,46 C436,46 406,76 406,96 C406,114 421,121 436,111 C451,121 466,114 466,96 C466,76 436,46 436,46 Z" fill="#10b981" opacity="0.6"/>
