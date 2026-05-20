@@ -6,9 +6,9 @@ async function getDb() {
   if (!db) {
     let dbName
     if (import.meta.env.VITE_MODE === 'test') {
-      dbName = 'casino-tracker-test.db'
+      dbName = 'investment-tracker-test.db'
     } else {
-      dbName = 'casino-tracker.db'
+      dbName = 'investment-tracker.db'
     }
     db = await Database.load(`sqlite:${dbName}`)
   }
@@ -37,11 +37,6 @@ export async function initDb() {
       exclude     INTEGER DEFAULT 0
     )
   `)
-  try {
-    await db.execute(`ALTER TABLE transactions ADD COLUMN exclude INTEGER DEFAULT 0`)
-  } catch {
-    // column already exists
-  }
 }
 
 export async function getTransactions() {

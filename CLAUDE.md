@@ -38,7 +38,7 @@ All database access goes through `src/db.js`, which holds a singleton `Database`
 
 ### Rust side
 
-`src-tauri/src/lib.rs` only registers `tauri-plugin-sql` — there are no custom Tauri commands. All SQL queries run from JS through the plugin. The SQLite file is stored in the app's platform data directory (`~/Library/Application Support/com.casinotracker.app/` on macOS).
+`src-tauri/src/lib.rs` only registers `tauri-plugin-sql` — there are no custom Tauri commands. All SQL queries run from JS through the plugin. The SQLite file is stored in the app's platform data directory (`~/Library/Application Support/com.investmenttracker.app/` on macOS).
 
 ### SQLite schema
 

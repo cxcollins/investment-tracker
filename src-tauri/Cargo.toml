@@ -1,12 +1,12 @@
 [package]
-name = "casino-tracker"
+name = "investment-tracker"
 version = "0.1.0"
-description = "Casino Tracker"
+description = "Investment Tracker"
 authors = []
 edition = "2021"
 
 [lib]
-name = "casino_tracker_lib"
+name = "investment_tracker_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]
