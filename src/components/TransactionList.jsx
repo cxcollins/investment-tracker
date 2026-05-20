@@ -7,7 +7,7 @@ function netProfit(tx) {
 
 const inputClass = "bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm text-white focus:border-emerald-500 focus:outline-none w-full"
 
-export function TransactionList({ transactions, onDelete, onUpdate, excludedIds, onToggleExclude }) {
+export function TransactionList({ transactions, onDelete, onUpdate }) {
   const [fromDate, setFromDate] = useState('')
   const [toDate, setToDate] = useState('')
   const [editingId, setEditingId] = useState(null)
@@ -29,6 +29,7 @@ export function TransactionList({ transactions, onDelete, onUpdate, excludedIds,
       description: tx.description || '',
       date: tx.date,
       pending: !!tx.pending,
+      exclude: !!tx.exclude,
     })
   }
 
@@ -41,6 +42,7 @@ export function TransactionList({ transactions, onDelete, onUpdate, excludedIds,
       description: editForm.description || null,
       date: editForm.date,
       pending: editForm.pending,
+      exclude: editForm.exclude,
     })
     setEditingId(null)
     setEditForm(null)
@@ -60,6 +62,20 @@ export function TransactionList({ transactions, onDelete, onUpdate, excludedIds,
       description: tx.description,
       date: tx.date,
       pending: !tx.pending,
+      exclude: !!tx.exclude,
+    })
+  }
+
+  async function toggleExclude(tx) {
+    await onUpdate(tx.id, {
+      income: tx.income,
+      expense: tx.expense,
+      cashback: tx.cashback,
+      website: tx.website,
+      description: tx.description,
+      date: tx.date,
+      pending: !!tx.pending,
+      exclude: !tx.exclude,
     })
   }
 
@@ -106,7 +122,7 @@ export function TransactionList({ transactions, onDelete, onUpdate, excludedIds,
               </tr>
             )}
             {filtered.map(tx => {
-              const isExcluded = excludedIds.has(tx.id)
+              const isExcluded = !!tx.exclude
 
               if (editingId === tx.id) {
                 return (
@@ -134,7 +150,7 @@ export function TransactionList({ transactions, onDelete, onUpdate, excludedIds,
                     </td>
                     <td className="px-4 py-2 text-right text-gray-500">—</td>
                     <td className="px-3 py-2 text-center">
-                      <input type="checkbox" checked={isExcluded} onChange={() => onToggleExclude(tx.id)} className="accent-emerald-500" />
+                      <input type="checkbox" checked={editForm.exclude} onChange={e => setEditForm(f => ({ ...f, exclude: e.target.checked }))} className="accent-emerald-500" />
                     </td>
                     <td className="px-3 py-2 text-center">
                       <input type="checkbox" checked={editForm.pending} onChange={e => setEditForm(f => ({ ...f, pending: e.target.checked }))} className="accent-emerald-500" />
@@ -176,7 +192,7 @@ export function TransactionList({ transactions, onDelete, onUpdate, excludedIds,
                     <input
                       type="checkbox"
                       checked={isExcluded}
-                      onChange={() => onToggleExclude(tx.id)}
+                      onChange={() => toggleExclude(tx)}
                       className="accent-emerald-500"
                     />
                   </td>

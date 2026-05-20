@@ -33,9 +33,15 @@ export async function initDb() {
       website     TEXT    NOT NULL,
       description TEXT,
       date        TEXT    NOT NULL,
-      pending     INTEGER DEFAULT 0
+      pending     INTEGER DEFAULT 0,
+      exclude     INTEGER DEFAULT 0
     )
   `)
+  try {
+    await db.execute(`ALTER TABLE transactions ADD COLUMN exclude INTEGER DEFAULT 0`)
+  } catch {
+    // column already exists
+  }
 }
 
 export async function getTransactions() {
@@ -46,16 +52,16 @@ export async function getTransactions() {
 export async function addTransaction(tx) {
   const db = await getDb()
   await db.execute(
-    'INSERT INTO transactions (income, expense, cashback, website, description, date, pending) VALUES (?, ?, ?, ?, ?, ?, ?)',
-    [tx.income ?? 0, tx.expense ?? 0, tx.cashback ?? 0, tx.website, tx.description ?? null, tx.date, tx.pending ? 1 : 0],
+    'INSERT INTO transactions (income, expense, cashback, website, description, date, pending, exclude) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+    [tx.income ?? 0, tx.expense ?? 0, tx.cashback ?? 0, tx.website, tx.description ?? null, tx.date, tx.pending ? 1 : 0, tx.exclude ? 1 : 0],
   )
 }
 
 export async function updateTransaction(id, tx) {
   const db = await getDb()
   await db.execute(
-    'UPDATE transactions SET income = ?, expense = ?, cashback = ?, website = ?, description = ?, date = ?, pending = ? WHERE id = ?',
-    [tx.income ?? 0, tx.expense ?? 0, tx.cashback ?? 0, tx.website, tx.description ?? null, tx.date, tx.pending ? 1 : 0, id],
+    'UPDATE transactions SET income = ?, expense = ?, cashback = ?, website = ?, description = ?, date = ?, pending = ?, exclude = ? WHERE id = ?',
+    [tx.income ?? 0, tx.expense ?? 0, tx.cashback ?? 0, tx.website, tx.description ?? null, tx.date, tx.pending ? 1 : 0, tx.exclude ? 1 : 0, id],
   )
 }
 

@@ -26,7 +26,6 @@ export default function App() {
 function Dashboard() {
   const [showForm, setShowForm] = useState(false)
   const [selectedWebsites, setSelectedWebsites] = useState(new Set())
-  const [excludedIds, setExcludedIds] = useState(new Set())
   const { transactions, add, update, remove } = useTransactions()
 
   async function handleAdd(tx) {
@@ -41,18 +40,6 @@ function Dashboard() {
         next.delete(website)
       } else {
         next.add(website)
-      }
-      return next
-    })
-  }
-
-  function toggleExclude(id) {
-    setExcludedIds(prev => {
-      const next = new Set(prev)
-      if (next.has(id)) {
-        next.delete(id)
-      } else {
-        next.add(id)
       }
       return next
     })
@@ -93,8 +80,8 @@ function Dashboard() {
             ))}
           </div>
         </div>
-        <TransactionList transactions={filtered} onDelete={remove} onUpdate={update} excludedIds={excludedIds} onToggleExclude={toggleExclude} />
-        <NetProfitChart transactions={filtered.filter(tx => !excludedIds.has(tx.id))} />
+        <TransactionList transactions={filtered} onDelete={remove} onUpdate={update} />
+        <NetProfitChart transactions={filtered.filter(tx => !tx.exclude)} />
       </main>
 
       {showForm && (
